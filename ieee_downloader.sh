@@ -1,6 +1,9 @@
 #!/bin/bash
 
 wget "$1" -O ".temp" -q 
-suffix="$(cat .temp | grep -Po '/iel7/\K.*?\.pdf' | head -n1)"
-wget https://ieeexplore.ieee.org/ielx7/"$suffix" -O "${2:-${suffix##*/}}"
+suffix="$(cat .temp | grep -Po '/iel[0-9]/.*?\.pdf' | head -n1)"
+filename=${2:-${suffix##*/}}
+wget https://ieeexplore.ieee.org/ielx${suffix:4:1}/${suffix:6} -O "$filename"
 rm .temp
+
+# code "$filename"
